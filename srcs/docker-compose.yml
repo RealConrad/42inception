@@ -6,6 +6,8 @@ networks:
 
 services:
   nginx:
+    # volumes:
+    #   - ../secrets:/42inception/secrets
     container_name: nginx
     build: ./requirements/nginx
     restart: always
