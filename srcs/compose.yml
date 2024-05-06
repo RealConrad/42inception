@@ -1,0 +1,27 @@
+networks:
+  inception:
+    name: inception
+
+services:
+  nginx:
+    build: ./requirements/nginx
+    restart: always
+    container_name: nginx
+    ports:
+      - "443:443"
+    networks:
+      - inception
+  
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    restart: always
+    ports:
+      - "9000:9000"
+    networks:
+      - inception
+    environment:
+      - WP_DB_NAME=${WP_DB_NAME}
+      - WP_USERNAME=${WP_USERNAME}
+      - WP_DB_PASSWORD=${WP_DB_PASSWORD}
+      - WP_DB_HOST=${WP_DB_HOST}
