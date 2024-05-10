@@ -11,6 +11,8 @@ services:
       - "443:443"
     networks:
       - inception
+    depends_on:
+      - wordpress
   
   wordpress:
     build: ./requirements/wordpress
@@ -25,3 +27,26 @@ services:
       - WP_USERNAME=${WP_USERNAME}
       - WP_DB_PASSWORD=${WP_DB_PASSWORD}
       - WP_DB_HOST=${WP_DB_HOST}
+      - WP_ADMIN_NAME=${WP_ADMIN_NAME}
+      - WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}
+    depends_on:
+      - mariadb
+
+  mariadb:
+    build: ./requirements/mariadb
+    restart: always
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    networks:
+      - inception
+    environment:
+      - MYSQL_ROOT_PASSWORD=${WP_DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${WP_DB_NAME}
+      - MYSQL_USER=${WP_USERNAME}
+      - MYSQL_PASSWORD=${WP_DB_PASSWORD}
+      - WP_DB_NAME=${WP_DB_NAME}
+      - WP_USERNAME=${WP_USERNAME}
+      - WP_DB_PASSWORD=${WP_DB_PASSWORD}
+      - WP_DB_HOST=${WP_DB_HOST}
+      - WP_DB_ROOT_PASSWORD=${WP_DB_ROOT_PASSWORD}
