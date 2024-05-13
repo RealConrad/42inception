@@ -1,5 +1,5 @@
 # Use alpine as the base image for docker image
-FROM alpine:3.18
+FROM alpine:3.19
 
 # Install NGINX and OpenSSL, do not cache index locally -> keep image size small
 RUN apk --no-cache add nginx openssl

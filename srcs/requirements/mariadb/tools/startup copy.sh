@@ -23,12 +23,12 @@ rc-service mariadb start
 while ! mysqladmin ping --silent; do
 	sleep 1
 done
-# echo ELO1
-mariadb --user=root << EOF
+
+mariadb --user=root <<EOF
 FLUSH PRIVILEGES;
-CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
-CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
-GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
+CREATE DATABASE IF NOT EXISTS mariadb;
+CREATE USER IF NOT EXISTS 'cwenz'@'%' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON mariadb.* TO 'cwenz'@'%';
 FLUSH PRIVILEGES;
 EOF
 
@@ -46,5 +46,4 @@ EOF
 
 # Start MariaDB in the foreground for Docker
 rc-service mariadb stop
-# echo ELO2
-exec /usr/bin/mariadbd --datadir="$DATA_PATH" --user=root
+exec /usr/bin/mariadbd --datadir="$DATA_PATH" --user=mysql
