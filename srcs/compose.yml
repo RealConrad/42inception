@@ -18,8 +18,8 @@ services:
     build: ./requirements/wordpress
     container_name: wordpress
     restart: always
-    ports:
-      - "9000:9000"
+    # ports:
+    #   - "9000:9000"
     networks:
       - inception
     environment:

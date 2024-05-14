@@ -27,32 +27,32 @@ RUN apk add --no-cache \
 # Create a symbolic link for php
 RUN ln -s /usr/bin/php82 /usr/local/bin/php
 
+
 # Create the directory and set correct permissions
 RUN mkdir -p /var/www/html \
-    && chown -R nobody:nobody /var/www/html \
-    && chmod -R 755 /var/www/html
+	&& chown -R nobody:nobody /var/www/html \
+	&& chmod -R 755 /var/www/html
 
 # Install WordPress CLI
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    && chmod +x wp-cli.phar \
-    && mv wp-cli.phar /usr/local/bin/wp
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
-# Install WordPress using WP-CLI
-RUN wp core download --allow-root --path=/var/www/html --version=6.4.2
+RUN chmod +x wp-cli.phar \
+	&& mv wp-cli.phar /usr/local/bin/wp \
+	&& sed -i "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/" /etc/php82/php-fpm.d/www.conf \
+	&& wp core download --path=/var/www/html/ --version=6.4.3
 
 # Copy configuration files and scripts
-COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
-# COPY tools/index.php /var/www/localhost/htdocs/
 COPY tools/wordpress.sh /usr/local/bin/wordpress.sh
-
 RUN chmod +x /usr/local/bin/wordpress.sh
 
 # Set ownership/permissions again to be safe
-RUN chown -R nobody:nobody /var/www/html \
-    && chmod -R 755 /var/www/html
+RUN touch /var/log/php82/error.log \
+	&& chown -R nobody:nobody /var/www/html/ \
+	&& chmod -R 755 /var/www/html \
+	&& chown -R nobody:nobody /var/log/php82/error.log
 
-# Define the entry point and command
-# ENTRYPOINT [ "/usr/local/bin/wordpress.sh" ]
+USER nobody
+
 EXPOSE 9000
-# CMD ["/usr/sbin/php-fpm82", "-F"]
-CMD ./usr/local/bin/wordpress.sh
+
+CMD [ "./usr/local/bin/wordpress.sh" ]
