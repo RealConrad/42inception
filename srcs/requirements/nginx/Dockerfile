@@ -15,8 +15,6 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 # Copy the NGINX configuration file into the container
 COPY conf/myconfig.conf /etc/nginx/http.d/
 
-# COPY tools/index.html /var/www/localhost/htdocs/index.html
-
 # Exose port 443
 EXPOSE 443
 

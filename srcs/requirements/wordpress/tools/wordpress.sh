@@ -6,14 +6,19 @@ sleep 10
 cd /var/www/html
 
 # TESTING:
+echo TESTING
 pwd
-echo dbname: $WP_DB_NAME
-echo dbuser: $WP_USERNAME
-echo db pasword: $WP_DB_PASSWORD
+echo dbname: $DB_NAME
+echo dbuser: $DB_USERNAME
+echo db pasword: $DB_PASSWORD
+echo wp admin name: $WP_ADMIN_NAME
+echo wp admin password: $WP_ADMIN_PASSWORD
+echo wp admin email: $WP_ADMIN_EMAIL
+echo END TESTINGn\n
 
 # Configuring wp-config.php
-wp config create --dbname="$WP_DB_NAME" --dbuser="$WP_USERNAME" \
-	--dbpass="$WP_DB_PASSWORD" --dbhost=mariadb:3306
+wp config create --dbname="$DB_NAME" --dbuser="$DB_USERNAME" \
+	--dbpass="$DB_PASSWORD" --dbhost=mariadb:3306
 
 # Install WordPress
 wp core install --url="https://localhost" --title="Ahhhhhh help me" \
@@ -23,14 +28,10 @@ wp core install --url="https://localhost" --title="Ahhhhhh help me" \
 wp option update home 'https://localhost'
 wp option update siteurl 'https://localhost'
 
-# wp option update home $URL && wp option update siteurl $URL
-
-# WP_DB_ROOT_PASSWORD:
+# DB_ROOT_PASSWORD:
 # wp user create $WP_ADMIN_NAME $WP_ADMIN_EMAIL --role=author --user_pass=$WP_ADMIN_PASSWORD
 chown -R nobody:nobody /var/www/html
 find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
-# Start PHP-FPM
-# exec php-fpm82 -F
-# exec "$@"
+
 php-fpm82 -F
