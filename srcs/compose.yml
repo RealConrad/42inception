@@ -2,6 +2,16 @@ networks:
   inception:
     name: inception
 
+volumes:
+  wordpress-volume:
+    driver: local
+    # driver-opts:
+    #   type: none
+  mariadb-volume:
+    driver: local
+    # driver-opts:
+    #   type: none
+
 services:
   nginx:
     build: ./requirements/nginx
@@ -13,13 +23,15 @@ services:
       - inception
     depends_on:
       - wordpress
+    volumes:
+      - wordpress-volume:/var/www/html
   
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
+    expose:
+      - 9000
     restart: always
-    # ports:
-    #   - "9000:9000"
     networks:
       - inception
     environment:
@@ -32,13 +44,15 @@ services:
       - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
     depends_on:
       - mariadb
+    volumes:
+      - wordpress-volume:/var/www/html
 
   mariadb:
     build: ./requirements/mariadb
     restart: always
     container_name: mariadb
-    ports:
-      - "3306:3306"
+    expose:
+      - 3306
     networks:
       - inception
     environment:
@@ -51,3 +65,5 @@ services:
       - WP_DB_PASSWORD=${WP_DB_PASSWORD}
       - WP_DB_HOST=${WP_DB_HOST}
       - WP_DB_ROOT_PASSWORD=${WP_DB_ROOT_PASSWORD}
+    volumes:
+      - mariadb-volume:/var/lib/mysql
