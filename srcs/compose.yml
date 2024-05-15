@@ -35,10 +35,10 @@ services:
     networks:
       - inception
     environment:
-      - WP_DB_NAME=${WP_DB_NAME}
-      - WP_USERNAME=${WP_USERNAME}
-      - WP_DB_PASSWORD=${WP_DB_PASSWORD}
-      - WP_DB_HOST=${WP_DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_HOST=${DB_HOST}
       - WP_ADMIN_NAME=${WP_ADMIN_NAME}
       - WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}
       - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
@@ -56,14 +56,10 @@ services:
     networks:
       - inception
     environment:
-      - MYSQL_ROOT_PASSWORD=${WP_DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${WP_DB_NAME}
-      - MYSQL_USER=${WP_USERNAME}
-      - MYSQL_PASSWORD=${WP_DB_PASSWORD}
-      - WP_DB_NAME=${WP_DB_NAME}
-      - WP_USERNAME=${WP_USERNAME}
-      - WP_DB_PASSWORD=${WP_DB_PASSWORD}
-      - WP_DB_HOST=${WP_DB_HOST}
-      - WP_DB_ROOT_PASSWORD=${WP_DB_ROOT_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
     volumes:
       - mariadb-volume:/var/lib/mysql
