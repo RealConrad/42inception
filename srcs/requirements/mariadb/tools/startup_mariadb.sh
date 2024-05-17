@@ -6,6 +6,7 @@ DATA_PATH="/var/lib/mysql"
 rc-service mariadb start
 
 while ! mysqladmin ping --silent; do
+	echo "Checking if mariadb server started..."
 	sleep 1
 done
 
@@ -18,4 +19,7 @@ FLUSH PRIVILEGES;
 EOF
 
 rc-service mariadb stop
+
+echo "MariaDB successfully setup..."
+
 exec /usr/bin/mariadbd --datadir="$DATA_PATH" --user=root

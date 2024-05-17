@@ -13,8 +13,9 @@ COPY tools/startup_mariadb.sh /usr/local/bin/startup_mariadb.sh
 
 RUN chmod +x /usr/local/bin/startup_mariadb.sh
 
-# Expose the default MariaDB port
 RUN /etc/init.d/mariadb setup
+
+# Expose the default MariaDB port
 EXPOSE 3306
 
 CMD [ "startup_mariadb.sh" ]
