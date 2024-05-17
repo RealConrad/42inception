@@ -1,5 +1,6 @@
 networks:
   inception:
+    driver: bridge
     name: inception
 
 volumes:
@@ -17,6 +18,7 @@ services:
     build: ./requirements/nginx
     restart: always
     container_name: nginx
+    image: nginx
     ports:
       - "443:443"
     networks:
@@ -29,6 +31,7 @@ services:
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
+    image: wordpress
     expose:
       - 9000
     restart: always
@@ -51,6 +54,7 @@ services:
     build: ./requirements/mariadb
     restart: always
     container_name: mariadb
+    image: mariadb
     expose:
       - 3306
     networks:
