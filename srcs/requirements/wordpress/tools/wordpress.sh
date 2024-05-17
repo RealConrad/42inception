@@ -28,7 +28,6 @@ wp core install --url="https://localhost" --title="Ahhhhhh help me" \
 wp option update home 'https://localhost'
 wp option update siteurl 'https://localhost'
 
-# DB_ROOT_PASSWORD:
 # wp user create $WP_ADMIN_NAME $WP_ADMIN_EMAIL --role=author --user_pass=$WP_ADMIN_PASSWORD
 chown -R nobody:nobody /var/www/html
 find . -type d -exec chmod 755 {} \;

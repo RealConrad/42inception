@@ -57,7 +57,6 @@ services:
       - inception
     environment:
       - DB_NAME=${DB_NAME}
-      - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=${DB_HOST}
