@@ -8,7 +8,7 @@ rc-service mariadb start
 while ! mysqladmin ping --silent; do
 	sleep 1
 done
-# echo ELO1
+
 mariadb --user=root << EOF
 FLUSH PRIVILEGES;
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};

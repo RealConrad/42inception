@@ -7,11 +7,15 @@ volumes:
   wordpress-volume:
     driver: local
     # driver-opts:
-    #   type: none
+      # device: path
+      # o: bind
+      # type: none
   mariadb-volume:
     driver: local
     # driver-opts:
-    #   type: none
+      # device: path
+      # o: bind
+      # type: none
 
 services:
   nginx:
@@ -32,8 +36,6 @@ services:
     build: ./requirements/wordpress
     container_name: wordpress
     image: wordpress
-    expose:
-      - 9000
     restart: always
     networks:
       - inception
@@ -55,8 +57,6 @@ services:
     restart: always
     container_name: mariadb
     image: mariadb
-    expose:
-      - 3306
     networks:
       - inception
     environment:

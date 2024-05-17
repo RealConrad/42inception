@@ -27,7 +27,6 @@ RUN apk add --no-cache \
 # Create a symbolic link for php
 RUN ln -s /usr/bin/php82 /usr/local/bin/php
 
-
 # Create the directory and set correct permissions
 RUN mkdir -p /var/www/html \
 	&& chown -R nobody:nobody /var/www/html \
@@ -39,11 +38,11 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 RUN chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin/wp \
 	&& sed -i "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/" /etc/php82/php-fpm.d/www.conf \
-	&& wp core download --path=/var/www/html/ --version=6.4.3
+	&& wp core download --path=/var/www/html/
 
 # Copy configuration files and scripts
-COPY tools/wordpress.sh /usr/local/bin/wordpress.sh
-RUN chmod +x /usr/local/bin/wordpress.sh
+COPY tools/startup_wordpress.sh /usr/local/bin/startup_wordpress.sh
+RUN chmod +x /usr/local/bin/startup_wordpress.sh
 
 # Set ownership/permissions again to be safe
 RUN touch /var/log/php82/error.log \
@@ -55,4 +54,4 @@ USER nobody
 
 EXPOSE 9000
 
-CMD [ "./usr/local/bin/wordpress.sh" ]
+CMD [ "./usr/local/bin/startup_wordpress.sh" ]

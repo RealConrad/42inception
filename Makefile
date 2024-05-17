@@ -2,6 +2,8 @@ DOCKER_COMPOSE		= docker-compose -f srcs/compose.yml
 
 all: up
 
+#TODO: CREATE VOLUME PATHS AND REMOVE THEM!
+
 build:
 	@echo "Building containers"
 	$(DOCKER_COMPOSE) build

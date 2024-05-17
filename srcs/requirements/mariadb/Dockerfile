@@ -9,13 +9,12 @@ RUN touch /run/openrc/softlevel
 
 # Copy configuration files and scripts
 COPY conf/my.cnf /etc/my.cnf.d/my.cnf
-COPY tools/startup.sh /usr/local/bin/startup.sh
+COPY tools/startup_mariadb.sh /usr/local/bin/startup_mariadb.sh
 
-RUN chmod +x /usr/local/bin/startup.sh
+RUN chmod +x /usr/local/bin/startup_mariadb.sh
 
 # Expose the default MariaDB port
 RUN /etc/init.d/mariadb setup
 EXPOSE 3306
 
-# Use mysqld_safe as the default command to run
-CMD [ "startup.sh" ]
+CMD [ "startup_mariadb.sh" ]
