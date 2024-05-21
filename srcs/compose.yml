@@ -6,16 +6,16 @@ networks:
 volumes:
   wordpress-volume:
     driver: local
-    # driver-opts:
-      # device: path
-      # o: bind
-      # type: none
+    driver_opts:
+      device: /home/cwenz/data/wordpress-volume
+      o: bind
+      type: none
   mariadb-volume:
     driver: local
-    # driver-opts:
-      # device: path
-      # o: bind
-      # type: none
+    driver_opts:
+      device: /home/cwenz/data/mariadb-volume
+      o: bind
+      type: none
 
 services:
   nginx:
@@ -28,9 +28,15 @@ services:
     networks:
       - inception
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
     volumes:
       - wordpress-volume:/var/www/html
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 100
   
   wordpress:
     build: ./requirements/wordpress
@@ -48,9 +54,15 @@ services:
       - WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}
       - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     volumes:
       - wordpress-volume:/var/www/html
+    healthcheck:
+      test: ["CMD", "wp", "core", "is-installed"]
+      interval: 5s
+      timeout: 5s
+      retries: 100
 
   mariadb:
     build: ./requirements/mariadb
@@ -66,3 +78,8 @@ services:
       - DB_HOST=${DB_HOST}
     volumes:
       - mariadb-volume:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 100
