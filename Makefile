@@ -9,8 +9,8 @@ create_volumes:
 	@mkdir -p $(MBD_DATA_DIR)
 
 delete_volumes:
-	@rm -rf $(WP_DATA_DIR)
-	@rm -rf $(MBD_DATA_DIR)
+	@cd /home/cwenz/data/ && rm  -rf  wordpress-volume
+#	@rm -rf $(MBD_DATA_DIR)
 
 build: create_volumes
 	@echo "Building containers"
@@ -18,7 +18,7 @@ build: create_volumes
 
 up: build
 	@echo "Starting up containers"
-	$(DOCKER_COMPOSE) up
+	$(DOCKER_COMPOSE) up -d
 
 clean:
 	@echo "Removing docker containers..."

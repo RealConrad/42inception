@@ -2,7 +2,7 @@
 FROM alpine:3.19
 
 # Install NGINX and OpenSSL, do not cache index locally -> keep image size small
-RUN apk update && apk --no-cache add nginx openssl
+RUN apk update && apk --no-cache add nginx openssl curl
 
 # Create directory within in the container for SSL certificates
 RUN mkdir /etc/nginx/ssl

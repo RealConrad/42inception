@@ -22,17 +22,17 @@ wp config create --dbname="$DB_NAME" --dbuser="$DB_USERNAME" \
 
 # Install WordPress
 wp core install --admin_user="$WP_ADMIN_NAME" --admin_password="$WP_ADMIN_PASSWORD" --admin_email="$WP_ADMIN_EMAIL" \
-	--skip-email --title="Why are we still here? Just to suffer?" --url="https://localhost"
+	--skip-email --title="Why are we still here? Just to suffer?" --url="https://cwenz.42.fr"
 
 # wp user create $WP_ADMIN_NAME $WP_ADMIN_EMAIL --role=author --user_pass=$WP_ADMIN_PASSWORD
-
+wp user create $WP_USER $WP_USER_EMAIL --user_pass=$WP_USER_PASSWORD
 # Set ownership and file/folder permissions for the 'nobody' user
 chown -R nobody:nobody /var/www/html
 find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 
 # Update site/home to our own domain, otherwise wordpress cant find any media files (e.g. images)
-wp option update home 'https://localhost'
-wp option update siteurl 'https://localhost'
+wp option update home 'https://cwenz.42.fr'
+wp option update siteurl 'https://cwenz.42.fr'
 
 php-fpm82 -F
