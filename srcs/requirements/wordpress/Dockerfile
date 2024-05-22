@@ -27,6 +27,8 @@ RUN apk add --no-cache \
 # Create a symbolic link for php
 RUN ln -s /usr/bin/php82 /usr/local/bin/php
 
+WORKDIR /var/www/html/
+
 # Create the directory and set correct permissions
 RUN mkdir -p /var/www/html \
 	&& chown -R nobody:nobody /var/www/html \
@@ -54,4 +56,4 @@ USER nobody
 
 EXPOSE 9000
 
-CMD [ "./usr/local/bin/startup_wordpress.sh" ]
+CMD [ "/usr/local/bin/startup_wordpress.sh" ]
