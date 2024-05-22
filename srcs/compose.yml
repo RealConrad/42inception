@@ -28,12 +28,12 @@ services:
     networks:
       - inception
     depends_on:
-      - wordpress
- #       condition: service_healthy
+      wordpress:
+        condition: service_healthy
     volumes:
       - wordpress-volume:/var/www/html
     healthcheck:
-      test: ["CMD", "curl", "-k", " https://cwenz.42.fr"]
+      test: ["CMD", "curl", "-k", "https://cwenz.42.fr"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -56,15 +56,15 @@ services:
       - WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}
       - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
     depends_on:
-      - mariadb
- #       condition: service_healthy
+      mariadb:
+        condition: service_healthy
     volumes:
       - wordpress-volume:/var/www/html
-#    healthcheck:
-#      test: ["CMD", "wp", "core", "is-installed"]
-#      interval: 5s
-#      timeout: 5s
-#      retries: 100
+    healthcheck:
+      test: ["CMD", "wp", "core", "is-installed"]
+      interval: 5s
+      timeout: 5s
+      retries: 100
 
   mariadb:
     build: ./requirements/mariadb
@@ -80,8 +80,8 @@ services:
       - DB_HOST=${DB_HOST}
     volumes:
       - mariadb-volume:/var/lib/mysql
-#    healthcheck:
-#      test: ["CMD", "mysqladmin", "ping", "-h", "cwenz.42.fr"]
-#      interval: 5s
-#      timeout: 5s
-#      retries: 100
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "cwenz.42.fr"]
+      interval: 5s
+      timeout: 5s
+      retries: 100
