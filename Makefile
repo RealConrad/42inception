@@ -26,6 +26,9 @@ up: build
 	@echo "Starting up containers"
 	$(DOCKER_COMPOSE) up -d
 
+stop:
+	$(DOCKER_COMPOSE) stop
+
 clean: down
 	@echo "Removing docker containers, networks, and images created by up..."
 	docker container prune -f
@@ -39,4 +42,4 @@ fclean: clean
 re: fclean all
 	@echo "Rebuilding the project from scratch..."
 
-.PHONY: all up down clean fclean re delete_volumes create_volumes start
+.PHONY: all up down clean fclean re delete_volumes create_volumes start stop
