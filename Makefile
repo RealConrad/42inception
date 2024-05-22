@@ -1,6 +1,6 @@
-DOCKER_COMPOSE		= docker compose -f srcs/compose.yml
-WP_DATA_DIR			= /home/cwenz/data/wordpress-volume
-MBD_DATA_DIR		= /home/cwenz/data/mariadb-volume
+DOCKER_COMPOSE     = docker compose -f srcs/compose.yml
+WP_DATA_DIR        = /home/cwenz/data/wordpress-volume
+MBD_DATA_DIR       = /home/cwenz/data/mariadb-volume
 
 all: up
 
@@ -9,8 +9,14 @@ create_volumes:
 	@mkdir -p $(MBD_DATA_DIR)
 
 delete_volumes:
-	@cd /home/cwenz/data/ && rm  -rf  wordpress-volume
-#	@rm -rf $(MBD_DATA_DIR)
+	@rm -rf $(WP_DATA_DIR)
+	@rm -rf $(MBD_DATA_DIR)
+
+down:
+	$(DOCKER_COMPOSE) down
+
+start:
+	$(DOCKER_COMPOSE) start
 
 build: create_volumes
 	@echo "Building containers"
@@ -20,17 +26,17 @@ up: build
 	@echo "Starting up containers"
 	$(DOCKER_COMPOSE) up -d
 
-clean:
-	@echo "Removing docker containers..."
-	$(DOCKER_COMPOSE) down
+clean: down
+	@echo "Removing docker containers, networks, and images created by up..."
+	docker container prune -f
+	docker network prune -f
+	docker image prune -f
 
-fclean: clean delete_volumes
+fclean: clean
 	@echo "Removing all unused networks, and dangling images..."
-	docker rmi $(shell docker images -q)
-	docker volume rm $(shell docker volume ls -q)
-	docker system prune -a
+	docker system prune -a -f
 
 re: fclean all
 	@echo "Rebuilding the project from scratch..."
 
-.PHONY: all up down clean fclean re delete_volumes create_volumes
+.PHONY: all up down clean fclean re delete_volumes create_volumes start

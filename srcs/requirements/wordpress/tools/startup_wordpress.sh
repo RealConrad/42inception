@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sleep 10
+# sleep 10
 
 # Navigate to the WordPress directory
 cd /var/www/html
