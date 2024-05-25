@@ -24,9 +24,6 @@ RUN apk add --no-cache \
 	php82-gd \
 	curl
 
-# Create a symbolic link for php
-RUN ln -s /usr/bin/php82 /usr/local/bin/php
-
 WORKDIR /var/www/html/
 
 # Create the directory and set correct permissions
@@ -48,8 +45,6 @@ RUN chmod +x /usr/local/bin/startup_wordpress.sh
 
 # Set ownership/permissions again to be safe
 RUN touch /var/log/php82/error.log \
-	&& chown -R nobody:nobody /var/www/html/ \
-	&& chmod -R 755 /var/www/html \
 	&& chown -R nobody:nobody /var/log/php82/error.log
 
 USER nobody
