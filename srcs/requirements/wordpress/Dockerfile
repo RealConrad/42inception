@@ -45,6 +45,8 @@ RUN chmod +x /usr/local/bin/startup_wordpress.sh
 
 # Set ownership/permissions again to be safe
 RUN touch /var/log/php82/error.log \
+	&& chown -R nobody:nobody /var/www/html/ \
+	&& chmod -R 755 /var/www/html \
 	&& chown -R nobody:nobody /var/log/php82/error.log
 
 USER nobody
