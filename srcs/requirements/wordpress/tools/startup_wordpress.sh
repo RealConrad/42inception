@@ -27,9 +27,9 @@ wp core install --admin_user="$WP_ADMIN_NAME" --admin_password="$WP_ADMIN_PASSWO
 # wp user create $WP_ADMIN_NAME $WP_ADMIN_EMAIL --role=author --user_pass=$WP_ADMIN_PASSWORD
 wp user create $WP_USER $WP_USER_EMAIL --user_pass=$WP_PASSWORD
 # Set ownership and file/folder permissions for the 'nobody' user
-chown -R nobody:nobody /var/www/html
-find . -type d -exec chmod 755 {} \;
-find . -type f -exec chmod 644 {} \;
+# chown -R nobody:nobody /var/www/html
+# find . -type d -exec chmod 755 {} \;
+# find . -type f -exec chmod 644 {} \;
 
 # Update site/home to our own domain, otherwise wordpress cant find any media files (e.g. images)
 wp option update home 'https://cwenz.42.fr'
